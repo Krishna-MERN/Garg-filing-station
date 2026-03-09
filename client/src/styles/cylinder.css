@@ -1,0 +1,170 @@
+/* PAGE BACKGROUND */
+
+body{
+margin:0;
+font-family: "Segoe UI", Arial, sans-serif;
+background:#f4f6fb;
+color:#1f2937;
+}
+
+
+/* DASHBOARD */
+
+.dashboard{
+max-width:1100px;
+margin:auto;
+padding:40px 20px;
+}
+
+
+/* TITLE */
+
+.dashboard h1{
+text-align:center;
+font-size:32px;
+margin-bottom:40px;
+font-weight:600;
+letter-spacing:.5px;
+color:#111827;
+}
+
+
+/* STOCK GRID */
+
+.stock-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+margin-bottom:40px;
+}
+
+
+/* STOCK CARD */
+
+.stock-card{
+background:white;
+border-radius:14px;
+padding:25px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+transition:all .25s ease;
+}
+
+.stock-card:hover{
+transform:translateY(-6px);
+box-shadow:0 12px 25px rgba(0,0,0,0.12);
+}
+
+.stock-card h3{
+text-align:center;
+margin-bottom:18px;
+font-size:20px;
+color:#374151;
+}
+
+
+/* STOCK ROW */
+
+.stock-row{
+display:flex;
+justify-content:space-between;
+font-size:16px;
+padding:8px 0;
+border-bottom:1px solid #f1f5f9;
+}
+
+.stock-row:last-child{
+border:none;
+}
+
+
+/* STATUS COLORS */
+
+.filled{
+color:#16a34a;
+font-weight:1200;
+}
+
+.empty{
+color:#dc2626;
+font-weight:1200;
+}
+
+/* UPDATE FORM */
+
+.update-form{
+background:#ffffff;
+max-width:420px;
+margin:40px auto;
+padding:30px;
+border-radius:14px;
+box-shadow:0 8px 22px rgba(0,0,0,0.08);
+display:flex;
+flex-direction:column;
+gap:16px;
+}
+
+
+/* FORM TITLE */
+
+.update-form h2{
+text-align:center;
+font-size:20px;
+color:#111827;
+margin-bottom:10px;
+font-weight:600;
+}
+
+
+/* INPUTS */
+
+.update-form select,
+.update-form input{
+
+background:#f9fafb;
+border:1px solid #d1d5db;
+border-radius:8px;
+padding:12px;
+font-size:15px;
+color:#111827;
+transition:all .2s ease;
+
+}
+
+
+/* INPUT FOCUS */
+
+.update-form select:focus,
+.update-form input:focus{
+
+outline:none;
+border-color:#2563eb;
+background:#ffffff;
+box-shadow:0 0 0 2px rgba(37,99,235,0.15);
+
+}
+
+
+/* BUTTON */
+
+.update-form button{
+
+margin-top:5px;
+padding:14px;
+border:none;
+border-radius:8px;
+background:#2563eb;
+color:#ffffff;
+font-size:16px;
+font-weight:500;
+cursor:pointer;
+transition:all .25s ease;
+
+}
+
+
+.update-form button:hover{
+
+background:#1d4ed8;
+transform:translateY(-1px);
+
+}

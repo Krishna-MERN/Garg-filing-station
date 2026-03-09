@@ -1,0 +1,287 @@
+const express = require("express")
+const router = express.Router()
+
+const Sale = require("../models/Sale")
+const Cylinder = require("../models/Cylinder")
+
+
+/* GET ALL SALES */
+
+router.get("/", async (req,res)=>{
+
+try{
+
+const sales = await Sale.find().sort({date:-1})
+
+res.json(sales)
+
+}
+catch(err){
+
+res.status(500).json(err)
+
+}
+
+})
+
+
+
+/* CREATE SALE */
+
+router.post("/sell", async (req,res)=>{
+
+try{
+
+const data = req.body
+
+let stock = await Cylinder.findOne()
+
+if(stock[data.outgoingCylinder].filled <= 0){
+
+return res.json({
+success:false,
+message:"Cylinder Out Of Stock"
+})
+
+}
+
+/* GET SELLING PRICE */
+
+const price = stock[data.outgoingCylinder].price
+
+/* GET COST PRICE */
+
+const cost = stock[data.outgoingCylinder].cost
+
+/* CALCULATE UNPAID */
+
+const paid = Number(data.paidAmount) || 0
+
+const unpaidAmount = price - paid
+
+
+/* UPDATE STOCK */
+
+stock[data.outgoingCylinder].filled -= 1
+stock[data.incomingCylinder].empty += 1
+
+await stock.save()
+
+
+/* SAVE SALE */
+
+const sale = new Sale({
+
+...data,
+
+price,
+cost,
+
+paidAmount:paid,
+unpaidAmount
+
+})
+
+await sale.save()
+
+res.json({
+
+success:true,
+sale
+
+})
+
+}
+catch(err){
+
+console.log(err)
+
+res.status(500).json(err)
+
+}
+
+})
+
+
+
+/* UPDATE PAYMENT */
+
+router.put("/:id", async (req,res)=>{
+
+try{
+
+const sale = await Sale.findById(req.params.id)
+
+if(!sale){
+return res.status(404).json({message:"Sale not found"})
+}
+
+const newPaid = Number(req.body.paidAmount)
+
+/* get price safely */
+
+let price = sale.price
+
+if(!price){
+
+const stock = await Cylinder.findOne()
+
+price = stock[sale.outgoingCylinder].price
+
+sale.price = price
+
+}
+
+sale.paidAmount = newPaid
+sale.unpaidAmount = price - newPaid
+
+await sale.save()
+
+res.json({
+success:true,
+sale
+})
+
+}
+catch(err){
+
+console.log(err)
+
+res.status(500).json(err)
+
+}
+
+}) 
+
+
+
+router.put("/:id", async (req,res)=>{
+
+try{
+
+const sale = await Sale.findById(req.params.id)
+
+if(!sale){
+
+return res.status(404).json({
+message:"Sale not found"
+})
+
+}
+
+const newPaid = Number(req.body.paidAmount)
+
+if(isNaN(newPaid)){
+
+return res.status(400).json({
+message:"Invalid paid amount"
+})
+
+}
+
+/* ensure price exists */
+
+const price = Number(sale.price || 0)
+
+/* update values */
+
+sale.paidAmount = newPaid
+sale.unpaidAmount = price - newPaid
+
+await sale.save()
+
+res.json({
+success:true,
+sale
+})
+
+}
+catch(err){
+
+console.log("UPDATE ERROR:",err)
+
+res.status(500).json({
+message:"Server Error",
+error:err.message
+})
+
+}
+
+})
+
+
+/* DELETE SALE */
+
+router.delete("/:id", async (req,res)=>{
+
+try{
+
+await Sale.findByIdAndDelete(req.params.id)
+
+res.json({
+message:"Sale Deleted"
+})
+
+}
+catch(err){
+
+console.log(err)
+
+res.status(500).json(err)
+
+}
+
+})
+
+// sale profit report
+router.get("/report", async (req,res)=>{
+
+try{
+
+const {from,to} = req.query
+
+let filter = {}
+
+if(from && to){
+
+filter.date = {
+$gte:new Date(from),
+$lte:new Date(to)
+}
+
+}
+
+const sales = await Sale.find(filter)
+
+let totalCost = 0
+let totalPaid = 0
+let totalUnpaid = 0
+
+sales.forEach(sale=>{
+
+totalCost += sale.cost || 0
+totalPaid += sale.paidAmount || 0
+totalUnpaid += sale.unpaidAmount || 0
+
+})
+
+res.json({
+
+sales,
+totalCost,
+totalPaid,
+totalUnpaid
+
+})
+
+}
+catch(err){
+
+res.status(500).json(err)
+
+}
+
+})
+
+
+module.exports = router

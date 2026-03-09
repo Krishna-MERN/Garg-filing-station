@@ -1,0 +1,161 @@
+body{
+margin:0;
+font-family:Segoe UI, Arial, sans-serif;
+background:#f4f6fb;
+color:#1f2937;
+}
+
+
+/* PAGE */
+
+.pricePage{
+
+max-width:900px;
+
+margin:auto;
+
+padding:40px 20px;
+
+}
+
+
+.pricePage h1{
+
+text-align:center;
+
+margin-bottom:35px;
+
+font-size:28px;
+
+font-weight:600;
+
+}
+
+
+/* CARD GRID */
+
+.pricePage{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:25px;
+
+}
+
+
+/* CARD */
+
+.priceCard{
+
+background:white;
+
+padding:22px;
+
+border-radius:12px;
+
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+transition:0.2s;
+
+}
+
+
+.priceCard:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 10px 25px rgba(0,0,0,0.12);
+
+}
+
+
+/* BRAND TITLE */
+
+.priceCard h2{
+
+margin-bottom:5px;
+
+font-size:20px;
+
+color:#1e293b;
+
+}
+
+
+/* LABEL */
+
+.priceCard label{
+
+font-size:14px;
+
+color:#64748b;
+
+}
+
+
+/* INPUT */
+
+.priceCard input{
+
+padding:10px;
+
+border-radius:6px;
+
+border:1px solid #d1d5db;
+
+font-size:14px;
+
+background:#fafafa;
+
+}
+
+
+.priceCard input:focus{
+
+outline:none;
+
+border-color:#2563eb;
+
+background:white;
+
+}
+
+
+/* BUTTON */
+
+.priceCard button{
+
+margin-top:8px;
+
+padding:10px;
+
+background:#2563eb;
+
+color:white;
+
+border:none;
+
+border-radius:6px;
+
+cursor:pointer;
+
+font-weight:500;
+
+transition:0.2s;
+
+}
+
+
+.priceCard button:hover{
+
+background:#1d4ed8;
+
+}
