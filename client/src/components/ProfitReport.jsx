@@ -10,7 +10,7 @@ const [to,setTo] = useState("")
 
 const fetchReport = async()=>{
 
-let url = "http://localhost:5000/api/sales/report"
+let url = "https://garg-filing-station.onrender.com/api/sales/report"
 
 if(from && to){
 

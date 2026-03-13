@@ -7,7 +7,7 @@ const [stock,setStock] = useState(null)
 
 useEffect(()=>{
 
-fetch("http://localhost:5000/api/cylinders")
+fetch("https://garg-filing-station.onrender.com/api/cylinders")
 .then(res=>res.json())
 .then(data=>setStock(data))
 
@@ -16,7 +16,7 @@ fetch("http://localhost:5000/api/cylinders")
 
 const updatePrice = async(brand)=>{
 
-await fetch("http://localhost:5000/api/cylinders/price",{
+await fetch("https://garg-filing-station.onrender.com/api/cylinders/price",{
 
 method:"PUT",
 

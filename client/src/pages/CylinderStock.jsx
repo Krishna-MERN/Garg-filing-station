@@ -14,7 +14,7 @@ function CylinderStock() {
   });
 
   const fetchStock = async () => {
-    const res = await fetch("http://localhost:5000/api/cylinders");
+    const res = await fetch("https://garg-filing-station.onrender.com/api/cylinders");
     const data = await res.json();
     setStock(data);
   };
@@ -36,7 +36,7 @@ function CylinderStock() {
       Number(updated[form.brand][form.type]) +
       Number(form.quantity);
 
-    await fetch("http://localhost:5000/api/cylinders/update", {
+    await fetch("https://garg-filing-station.onrender.com/api/cylinders/update", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -11,7 +11,7 @@ function SalesReport() {
   const [editPaid, setEditPaid] = useState("");
 
   const fetchSales = async () => {
-    const res = await fetch("http://localhost:5000/api/sales");
+    const res = await fetch("https://garg-filing-station.onrender.com/api/sales");
     const data = await res.json();
 
     setSales(data);
@@ -29,7 +29,7 @@ const confirmDelete = window.confirm(
 
 if(!confirmDelete) return
 
-await fetch(`http://localhost:5000/api/sales/${id}`,{
+await fetch(`https://garg-filing-station.onrender.com/api/sales/${id}`,{
 method:"DELETE"
 })
 
@@ -43,7 +43,7 @@ fetchSales()
   };
 
   const saveEdit = async (sale) => {
-    const res = await fetch(`http://localhost:5000/api/sales/${sale._id}`, {
+    const res = await fetch(`https://garg-filing-station.onrender.com/api/sales/${sale._id}`, {
       method: "PUT",
 
       headers: {

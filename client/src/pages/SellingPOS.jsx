@@ -21,7 +21,7 @@ function SellingPOS() {
   const [bill, setBill] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/cylinders")
+    fetch("https://garg-filing-station.onrender.com/api/cylinders")
       .then((res) => res.json())
       .then((data) => setStock(data));
   }, []);
@@ -58,7 +58,7 @@ Unpaid Amount: ₹${unpaid}`
 
   if (!confirmSale) return;
 
-  const res = await fetch("http://localhost:5000/api/sales/sell", {
+  const res = await fetch("https://garg-filing-station.onrender.com/api/sales/sell", {
     method: "POST",
 
     headers: {
