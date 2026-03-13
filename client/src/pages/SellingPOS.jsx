@@ -115,6 +115,7 @@ Unpaid Amount: ₹${unpaid}`
             <option>HP</option>
             <option>Indane</option>
             <option>Bharat</option>
+            <option>None</option>
           </select>
 
           <label>Outgoing Cylinder</label>
