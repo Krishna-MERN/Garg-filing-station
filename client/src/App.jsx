@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import CylinderStock from "./pages/CylinderStock";
 import Selling from "./pages/SellingPOS";
 import SalesReport from "./pages/SalesReport";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
 
@@ -15,7 +16,8 @@ function App() {
 
         {/* Default Page */}
 
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/home" element={<Home />} />
 
         {/* Other Pages */}
 

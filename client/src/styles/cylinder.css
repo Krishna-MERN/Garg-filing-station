@@ -1,170 +1,175 @@
-/* PAGE BACKGROUND */
-
-body{
-margin:0;
-font-family: "Segoe UI", Arial, sans-serif;
-background:#f4f6fb;
-color:#1f2937;
-}
-
-
-/* DASHBOARD */
-
 .dashboard{
-max-width:1100px;
-margin:auto;
-padding:40px 20px;
+    width:100%;
+    min-height:100vh;
+
+    background:#f4f7fb;
+
+    padding:30px;
 }
-
-
-/* TITLE */
 
 .dashboard h1{
-text-align:center;
-font-size:32px;
-margin-bottom:40px;
-font-weight:600;
-letter-spacing:.5px;
-color:#111827;
+    text-align:center;
+    color:#003366;
+
+    margin-bottom:30px;
+
+    font-size:34px;
+    font-weight:700;
 }
-
-
-/* STOCK GRID */
-
-.stock-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:25px;
-margin-bottom:40px;
-}
-
-
-/* STOCK CARD */
-
-.stock-card{
-background:white;
-border-radius:14px;
-padding:25px;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-transition:all .25s ease;
-}
-
-.stock-card:hover{
-transform:translateY(-6px);
-box-shadow:0 12px 25px rgba(0,0,0,0.12);
-}
-
-.stock-card h3{
-text-align:center;
-margin-bottom:18px;
-font-size:20px;
-color:#374151;
-}
-
-
-/* STOCK ROW */
-
-.stock-row{
-display:flex;
-justify-content:space-between;
-font-size:16px;
-padding:8px 0;
-border-bottom:1px solid #f1f5f9;
-}
-
-.stock-row:last-child{
-border:none;
-}
-
-
-/* STATUS COLORS */
-
-.filled{
-color:#16a34a;
-font-weight:1200;
-}
-
-.empty{
-color:#dc2626;
-font-weight:1200;
-}
-
-/* UPDATE FORM */
 
 .update-form{
-background:#ffffff;
-max-width:420px;
-margin:40px auto;
-padding:30px;
-border-radius:14px;
-box-shadow:0 8px 22px rgba(0,0,0,0.08);
-display:flex;
-flex-direction:column;
-gap:16px;
+    max-width:750px;
+    margin:30px auto;
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:12px;
+
+    border:1px solid #d9e2ec;
+
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
 }
-
-
-/* FORM TITLE */
 
 .update-form h2{
-text-align:center;
-font-size:20px;
-color:#111827;
-margin-bottom:10px;
-font-weight:600;
+    text-align:center;
+    color:#003366;
+    margin-bottom:25px;
 }
-
-
-/* INPUTS */
 
 .update-form select,
 .update-form input{
+    width:100%;
 
-background:#f9fafb;
-border:1px solid #d1d5db;
-border-radius:8px;
-padding:12px;
-font-size:15px;
-color:#111827;
-transition:all .2s ease;
+    padding:12px;
 
+    margin-bottom:15px;
+
+    border:1px solid #cfd8dc;
+    border-radius:8px;
+
+    font-size:15px;
 }
-
-
-/* INPUT FOCUS */
 
 .update-form select:focus,
 .update-form input:focus{
-
-outline:none;
-border-color:#2563eb;
-background:#ffffff;
-box-shadow:0 0 0 2px rgba(37,99,235,0.15);
-
+    outline:none;
+    border-color:#003366;
 }
-
-
-/* BUTTON */
 
 .update-form button{
+    width:100%;
 
-margin-top:5px;
-padding:14px;
-border:none;
-border-radius:8px;
-background:#2563eb;
-color:#ffffff;
-font-size:16px;
-font-weight:500;
-cursor:pointer;
-transition:all .25s ease;
+    padding:13px;
 
+    border:none;
+    border-radius:8px;
+
+    background:#142194;
+    color:white;
+
+    cursor:pointer;
+
+    font-size:16px;
+    font-weight:600;
+}
+
+.update-form button:hover{
+    background:#b71920;
+}
+
+@media(max-width:768px){
+
+    .dashboard{
+        padding:15px;
+    }
+
+    .dashboard h1{
+        font-size:26px;
+    }
+
+    .update-form{
+        padding:18px;
+    }
 }
 
 
-.update-form button:hover{
 
-background:#1d4ed8;
-transform:translateY(-1px);
+.stock-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:24px;
+    margin:30px 0;
+}
 
+.stock-card{
+    background:#ffffff;
+    border:1px solid #d8e2ef;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+    transition:0.3s ease;
+}
+
+.stock-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 24px rgba(0,0,0,0.12);
+}
+
+.stock-card h3{
+    background:#003366;
+    color:white;
+    padding:14px 20px;
+    font-size:22px;
+    font-weight:600;
+}
+
+.stock-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 20px;
+}
+
+.stock-row:first-of-type{
+    border-bottom:1px solid #edf2f7;
+}
+
+.stock-row span:first-child{
+    color:#555;
+    font-size:16px;
+    font-weight:600;
+}
+
+.filled,
+.empty{
+    font-size:28px;
+    font-weight:700;
+    min-width:80px;
+    text-align:right;
+}
+
+.filled{
+    color:#0f9d58;
+}
+
+.empty{
+    color:#d91f26;
+}
+
+@media(max-width:768px){
+
+    .stock-grid{
+        grid-template-columns:1fr;
+    }
+
+    .stock-card h3{
+        font-size:20px;
+    }
+
+    .filled,
+    .empty{
+        font-size:24px;
+    }
 }

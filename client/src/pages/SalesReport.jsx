@@ -86,7 +86,7 @@ fetchSales()
       <div className="topBar">
         <input
           className="search"
-          placeholder="Search name / mobile / passbook"
+          placeholder="Search by Name / Mobile / Passbook"
           onChange={(e) => setSearch(e.target.value)}
         />
 
@@ -95,7 +95,7 @@ fetchSales()
           <option value="unpaid">Unpaid Customers</option>
         </select>
       </div>
-
+<div className="tableWrapper">
       <table className="salesTable">
         <thead>
           <tr>
@@ -103,6 +103,7 @@ fetchSales()
             <th>Name</th>
             <th>Mobile</th>
             <th>Passbook</th>
+            <th>OTP</th>
             <th>Incoming</th>
             <th>Outgoing</th>
             <th>Price</th>
@@ -125,6 +126,7 @@ fetchSales()
               <td>{sale.mobile}</td>
 
               <td>{sale.passbookNo}</td>
+              <td>{sale.otp}</td>
 
               <td>{sale.incomingCylinder}</td>
 
@@ -174,6 +176,7 @@ fetchSales()
           ))}
         </tbody>
       </table>
+      </div>
       <ProfitReport/>
     </div>
   );

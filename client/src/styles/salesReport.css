@@ -1,326 +1,176 @@
-body {
-
-    margin: 0;
-
-    font-family: Segoe UI;
-
-    background: #f6f8fb;
-
-    color: #1f2937;
-
+.salesPage{
+    padding:30px 20px;
+    background:#f4f7fb;
+    min-height:100vh;
 }
 
-
-/* PAGE */
-
-.salesPage {
-
-    max-width: 1200px;
-
-    margin: auto;
-
-    padding: 40px;
-
+.salesPage h1{
+    text-align:center;
+    color:#003366;
+    margin-bottom:25px;
+    font-size:32px;
 }
 
+/* Search + Filter */
 
-.salesPage h1 {
-
-    text-align: center;
-
-    margin-bottom: 30px;
-
-    font-size: 28px;
-
-    font-weight: 600;
-
+.topBar{
+    display:flex;
+    gap:15px;
+    margin-bottom:25px;
+    flex-wrap:wrap;
 }
 
-
-/* SEARCH */
-
-.search {
-
-    width: 100%;
-
-    padding: 12px;
-
-    border-radius: 8px;
-
-    border: 1px solid #d1d5db;
-
-    margin-bottom: 20px;
-
-    font-size: 15px;
-
+.search{
+    flex:1;
+    min-width:280px;
+    padding:12px;
+    border:1px solid #d0d7de;
+    border-radius:8px;
+    font-size:15px;
 }
 
-
-/* TABLE */
-
-.salesTable {
-
-    width: 100%;
-
-    border-collapse: collapse;
-
-    background: white;
-
-    border-radius: 10px;
-
-    overflow: hidden;
-
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-
+.filter{
+    min-width:200px;
+    padding:12px;
+    border:1px solid #d0d7de;
+    border-radius:8px;
 }
 
+/* Table Wrapper */
 
-.salesTable th {
-
-    background: #1e293b;
-
-    color: white;
-
-    padding: 14px;
-
-    font-weight: 500;
-
-    text-align: left;
-
+.salesTable{
+    width:100%;
+    min-width:1400px;
+    border-collapse:collapse;
+    background:white;
 }
 
-
-.salesTable td {
-
-    padding: 8px;
-
-    border-bottom: 1px solid #e5e7eb;
-
-    font-size: 13px;
-
+.salesTable thead{
+    background:#003366;
+    color:white;
 }
 
-
-.salesTable tr:hover {
-
-    background: #f1f5f9;
-
+.salesTable th{
+    padding:14px 10px;
+    text-align:left;
+    white-space:nowrap;
 }
 
-
-/* INPUT IN EDIT MODE */
-
-.salesTable input {
-
-    padding: 6px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 4px;
-
-    width: 80px;
-
+.salesTable td{
+    padding:12px 10px;
+    border-bottom:1px solid #e5e7eb;
+    white-space:nowrap;
 }
 
-
-/* UNPAID COLOR */
-
-.unpaid {
-
-    color: #dc2626;
-
-    font-weight: 600;
-
+.salesTable tbody tr:hover{
+    background:#f8fafc;
 }
 
+/* Scroll Container */
 
-/* BUTTONS */
-
-.edit {
-
-    background: #2563eb;
-
-    color: white;
-
-    border: none;
-
-    padding: 6px 10px;
-
-    border-radius: 4px;
-
-    cursor: pointer;
-
-    margin-right: 5px;
-
+.salesPage{
+    overflow-x:auto;
 }
 
+/* Amount Colors */
 
-.edit:hover {
-
-    background: #1d4ed8;
-
+.unpaid{
+    color:#d91f26;
+    font-weight:700;
 }
 
+/* Buttons */
 
-.save {
-
-    background: #16a34a;
-
-    color: white;
-
-    border: none;
-
-    padding: 6px 10px;
-
-    border-radius: 4px;
-
-    cursor: pointer;
-
-    margin-right: 5px;
-
+.edit,
+.save,
+.delete{
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-right:6px;
+    font-size:14px;
 }
 
-
-.save:hover {
-
-    background: #15803d;
-
+.edit{
+    background:#003366;
+    color:white;
 }
 
-
-.delete {
-
-    background: #dc2626;
-
-    color: white;
-
-    border: none;
-
-    padding: 6px 10px;
-
-    border-radius: 4px;
-
-    cursor: pointer;
-
+.save{
+    background:#198754;
+    color:white;
 }
 
-
-.delete:hover {
-
-    background: #b91c1c;
-
+.delete{
+    background:#d91f26;
+    color:white;
 }
 
-
-/* TOP FILTER BAR */
-
-.topBar {
-
-    display: flex;
-
-    gap: 15px;
-
-    align-items: center;
-
-    margin-bottom: 20px;
-
-    flex-wrap: wrap;
-
+.edit:hover{
+    background:#004d99;
 }
 
-
-/* SEARCH INPUT */
-
-.search {
-
-    flex: 1;
-
-    min-width: 220px;
-
-    padding: 12px;
-
-    border-radius: 8px;
-
-    border: 1px solid #d1d5db;
-
-    font-size: 15px;
-
-    background: white;
-
-    color: #111827;
-
-    transition: all .2s ease;
-
+.save:hover{
+    background:#157347;
 }
 
-
-.search:focus {
-
-    outline: none;
-
-    border-color: #2563eb;
-
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
-
+.delete:hover{
+    background:#b71c1c;
 }
 
+/* Edit Input */
 
-/* FILTER SELECT */
-
-.filter {
-
-    padding: 12px;
-
-    border-radius: 8px;
-
-    border: 1px solid #d1d5db;
-
-    background: white;
-
-    font-size: 15px;
-
-    color: #111827;
-
-    cursor: pointer;
-
-    transition: all .2s ease;
-
+.salesTable input{
+    width:90px;
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:5px;
 }
 
+/* Tablet */
 
-.filter:focus {
+@media(max-width:768px){
 
-    outline: none;
-
-    border-color: #2563eb;
-
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
-
-}
-
-
-/* RESPONSIVE */
-
-@media (max-width:768px) {
-
-    .topBar {
-
-        flex-direction: column;
-
-        align-items: stretch;
-
+    .salesPage{
+        padding:15px;
     }
 
-    .filter {
-
-        width: 100%;
-
+    .salesPage h1{
+        font-size:24px;
     }
 
-    .search {
-
-        width: 100%;
-
+    .search,
+    .filter{
+        width:100%;
+        min-width:100%;
     }
 
+    .topBar{
+        flex-direction:column;
+    }
+}
+
+/* Small Mobile */
+
+@media(max-width:480px){
+
+    .salesPage h1{
+        font-size:20px;
+    }
+
+    .edit,
+    .save,
+    .delete{
+        display:block;
+        width:100%;
+        margin-bottom:5px;
+    }
+}
+
+.tableWrapper{
+    width:100%;
+    overflow-x:auto;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
 }

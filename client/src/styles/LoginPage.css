@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.login-container {
+  height: 100vh;
+  background: linear-gradient(135deg, #ff5f6d, #ffc371);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  width: 1000px;
+  height: 600px;
+  background: #fff;
+  border-radius: 25px;
+  overflow: hidden;
+  display: flex;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.left-section {
+  flex: 1;
+  background: url("https://images.unsplash.com/photo-1581092919535-7146ff1a5903")
+    center/cover no-repeat;
+  position: relative;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.overlay h1 {
+  font-size: 42px;
+  margin-bottom: 20px;
+}
+
+.overlay p {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.right-section {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo {
+  text-align: center;
+}
+
+.logo img {
+  width: 120px;
+  margin-bottom: 20px;
+}
+
+
+
+
+
+.right-section h2 {
+  text-align: center;
+  color: #d61f26;
+  margin-bottom: 30px;
+  font-size: 32px;
+}
+
+.input-group {
+  margin-bottom: 25px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 10px;
+  color: #444;
+  font-weight: 600;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #d61f26;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: #d61f26;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #b0181e;
+  transform: translateY(-2px);
+}
+
+.footer-text {
+  text-align: center;
+  margin-top: 25px;
+  color: #777;
+}
+
+@media (max-width: 768px) {
+  .login-card {
+    flex-direction: column;
+    width: 95%;
+    height: auto;
+  }
+
+  .left-section {
+    height: 250px;
+  }
+
+  .right-section {
+    padding: 30px;
+  }
+}

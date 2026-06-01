@@ -1,48 +1,73 @@
 import { useNavigate } from "react-router-dom";
 import "../styles/home.css";
 
-function Home(){
+function Home() {
+  const navigate = useNavigate();
 
-const navigate = useNavigate();
+  return (
+    <div className="home-container">
 
-return(
+      {/* Top Title Bar */}
+      <div className="top-title">
+        Garg Filling Station Management System
+      </div>
 
-<div className="home">
+      {/* Header */}
+      <div className="header">
+        <div className="header-left">
+          <img src="/logo.png" alt="HP Gas" />
 
-<h1 className="home-title">
-Garg Filing Station Management
-</h1>
+          <div>
+            <h2>HP Gas Agency Portal</h2>
+            <p>Authorized LPG Distribution Management System</p>
+          </div>
+        </div>
+      </div>
 
-<p className="home-sub">
-Control your cylinder business easily
-</p>
+      {/* Main Content */}
+      <div className="home">
 
-<div className="home-grid">
+        <p className="home-sub">
+          Welcome to the official management portal for stock, sales and profit tracking.
+        </p>
 
-<button className="home-card"
-onClick={()=>navigate("/stock")}>
-<h2>📦 Manage Stock</h2>
-<p>Update filled and empty cylinders</p>
-</button>
+        <div className="home-grid">
 
-<button className="home-card"
-onClick={()=>navigate("/selling")}>
-<h2>💰 Selling POS</h2>
-<p>Sell cylinders and update stock</p>
-</button>
+          <button
+            className="home-card"
+            onClick={() => navigate("/stock")}
+          >
+            <h2>📦 Manage Stock</h2>
+            <p>Update filled and empty cylinders</p>
+          </button>
 
-<button className="home-card"
-onClick={()=>navigate("/profit")}>
-<h2>📊 Profit Report</h2>
-<p>View daily and monthly profit</p>
-</button>
+          <button
+            className="home-card"
+            onClick={() => navigate("/selling")}
+          >
+            <h2>💰 Selling POS</h2>
+            <p>Sell cylinders and update stock</p>
+          </button>
 
-</div>
+          <button
+            className="home-card"
+            onClick={() => navigate("/profit")}
+          >
+            <h2>📊 Profit Report</h2>
+            <p>View daily and monthly profit</p>
+          </button>
 
-</div>
+        </div>
 
-)
+      </div>
 
+      {/* Footer */}
+      <div className="footer">
+        © 2026 Garg Filling Station | Authorized HP Gas Distributor
+      </div>
+
+    </div>
+  );
 }
 
-export default Home
+export default Home;
