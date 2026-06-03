@@ -83,7 +83,7 @@ Unpaid Amount: ₹${unpaid}`
 
   return (
     <div className="pos">
-      <h1>Gas Cylinder POS</h1>
+      <h1>Gas Distribution POS</h1>
 
       <div className="pos-layout">
         {/* FORM */}

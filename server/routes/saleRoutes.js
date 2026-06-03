@@ -180,6 +180,7 @@ router.put("/:id", async (req, res) => {
     if (!updatedSale) {
       return res.status(404).json({
         message: "Sale not found",
+       
       });
     }
 
@@ -187,6 +188,7 @@ router.put("/:id", async (req, res) => {
       Number(updatedSale.price || 0) - Number(updatedSale.paidAmount || 0);
 
     await updatedSale.save();
+    
 
     res.json({
       success: true,

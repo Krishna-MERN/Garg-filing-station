@@ -58,10 +58,7 @@ function SalesReport() {
 
   const saveEdit = async (sale) => {
     try {
-      console.log("Sending:", {
-  paidAmount: Number(editPaid),
-  comment: editComment,
-});
+      
       const res = await fetch(
         `https://garg-filing-station.onrender.com/api/sales/${sale._id}`,
         {
