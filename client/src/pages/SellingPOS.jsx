@@ -4,17 +4,20 @@ import "../styles/sellingPOS.css";
 function SellingPOS() {
   const [stock, setStock] = useState(null);
 
-  const [form, setForm] = useState({
-    name: "",
-    mobile: "",
-    passbookNo: "",
-    otp: "",
-    incomingCylinder: "HP",
-    outgoingCylinder: "HP",
-    paidAmount: "",
-    paymentType: "Cash",
-    comment: "",
-  });
+const [form, setForm] = useState({
+  name: "",
+  mobile: "",
+  passbookNo: "",
+  branch: "Baldirai",
+  otp: "",
+  otpStatus: "Not Verified",
+  incomingCylinder: "HP",
+  outgoingCylinder: "HP",
+  deliveryStatus: "Not Delivered",
+  paidAmount: "",
+  paymentType: "Cash",
+  comment: "",
+});
 
   const [unpaid, setUnpaid] = useState(0);
 
@@ -106,9 +109,25 @@ Unpaid Amount: ₹${unpaid}`
             placeholder="Passbook No"
             onChange={handleChange}
           />
+<select
+  name="branch"
+  value={form.branch}
+  onChange={handleChange}
+>
+  <option value="Baldirai">Baldirai</option>
+  <option value="Delhi">Delhi</option>
+</select>
 
           <input name="otp" placeholder="OTP" onChange={handleChange} />
 
+<select
+  name="otpStatus"
+  value={form.otpStatus}
+  onChange={handleChange}
+>
+  <option value="Verified">Verified</option>
+  <option value="Not Verified">Not Verified</option>
+</select>
           <label>Incoming Cylinder</label>
 
           <select name="incomingCylinder" onChange={handleChange}>
@@ -125,6 +144,17 @@ Unpaid Amount: ₹${unpaid}`
             <option>Indane</option>
             <option>Bharat</option>
           </select>
+
+
+<select
+  name="deliveryStatus"
+  value={form.deliveryStatus}
+  onChange={handleChange}
+>
+  <option value="Delivered">Delivered</option>
+  <option value="Not Delivered">Not Delivered</option>
+</select> 
+
 
           <input
             name="paidAmount"

@@ -19,9 +19,12 @@ router.get("/", async (req, res) => {
 /* CREATE SALE */
 
 router.post("/sell", async (req, res) => {
+ 
   try {
+    console.log("BODY =", req.body);
+     console.log(req.body);
     const data = req.body;
-
+   
     let stock = await Cylinder.findOne();
 
     if (stock[data.outgoingCylinder].filled <= 0) {
@@ -59,7 +62,6 @@ router.post("/sell", async (req, res) => {
 
       price,
       cost,
-
       paidAmount: paid,
       unpaidAmount,
     });
@@ -170,6 +172,8 @@ router.put("/:id", async (req, res) => {
       {
         paidAmount: Number(req.body.paidAmount),
         comment: req.body.comment,
+        otpStatus: req.body.otpStatus,
+        deliveryStatus: req.body.deliveryStatus,
       },
       {
         new: true,

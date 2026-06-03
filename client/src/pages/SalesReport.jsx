@@ -10,6 +10,8 @@ function SalesReport() {
   const [editId, setEditId] = useState(null);
   const [editPaid, setEditPaid] = useState("");
   const [editComment, setEditComment] = useState("");
+  const [editOtpStatus, setEditOtpStatus] = useState("");
+const [editDeliveryStatus, setEditDeliveryStatus] = useState("");
 
   const fetchSales = async () => {
     try {
@@ -50,11 +52,13 @@ function SalesReport() {
     }
   };
 
-  const startEdit = (sale) => {
-    setEditId(sale._id);
-    setEditPaid(sale.paidAmount);
-    setEditComment(sale.comment || "");
-  };
+const startEdit = (sale) => {
+  setEditId(sale._id);
+  setEditPaid(sale.paidAmount);
+  setEditComment(sale.comment || "");
+  setEditOtpStatus(sale.otpStatus || "Not Verified");
+  setEditDeliveryStatus(sale.deliveryStatus || "Not Delivered");
+};
 
   const saveEdit = async (sale) => {
     try {
@@ -69,6 +73,8 @@ function SalesReport() {
           body: JSON.stringify({
             paidAmount: Number(editPaid),
             comment: editComment,
+            otpStatus: editOtpStatus,
+            deliveryStatus: editDeliveryStatus,
           }),
         }
       );
@@ -132,9 +138,12 @@ function SalesReport() {
               <th>Name</th>
               <th>Mobile</th>
               <th>Passbook</th>
+              <th>Branch</th>
               <th>OTP</th>
+              <th>OTP Status</th>
               <th>Incoming</th>
               <th>Outgoing</th>
+              <th>Delivery Status</th>
               <th>Price</th>
               <th>Paid</th>
               <th>Unpaid</th>
@@ -155,12 +164,40 @@ function SalesReport() {
                 <td>{sale.mobile}</td>
 
                 <td>{sale.passbookNo}</td>
+                <td>{sale.branch}</td>
 
                 <td>{sale.otp}</td>
 
+         <td>
+  {editId === sale._id ? (
+    <select
+      value={editOtpStatus}
+      onChange={(e) => setEditOtpStatus(e.target.value)}
+    >
+      <option>Verified</option>
+      <option>Not Verified</option>
+    </select>
+  ) : (
+    sale.otpStatus
+  )}
+</td>
+                
                 <td>{sale.incomingCylinder}</td>
 
                 <td>{sale.outgoingCylinder}</td>
+                <td>
+  {editId === sale._id ? (
+    <select
+      value={editDeliveryStatus}
+      onChange={(e) => setEditDeliveryStatus(e.target.value)}
+    >
+      <option>Delivered</option>
+      <option>Not Delivered</option>
+    </select>
+  ) : (
+    sale.deliveryStatus
+  )}
+</td>
 
                 <td>₹{sale.price}</td>
 

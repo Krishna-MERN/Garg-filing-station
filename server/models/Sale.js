@@ -7,11 +7,18 @@ const saleSchema = new mongoose.Schema({
 
   passbookNo: String,
 
+   branch: String,
+ 
+
   otp: String,
+
+  otpStatus: String,
 
   incomingCylinder: String,
 
   outgoingCylinder: String,
+
+  deliveryStatus: String,
 
   price: Number,
 
@@ -24,6 +31,8 @@ const saleSchema = new mongoose.Schema({
   paymentType: String,
 
   comment: String,
+
+ 
 
   date: {
     type: Date,
