@@ -9,68 +9,94 @@ function SalesReport() {
 
   const [editId, setEditId] = useState(null);
   const [editPaid, setEditPaid] = useState("");
+  const [editComment, setEditComment] = useState("");
 
   const fetchSales = async () => {
-    const res = await fetch("https://garg-filing-station.onrender.com/api/sales");
-    const data = await res.json();
+    try {
+      const res = await fetch(
+        "https://garg-filing-station.onrender.com/api/sales"
+      );
 
-    setSales(data);
+      const data = await res.json();
+
+      setSales(data);
+    } catch (err) {
+      console.log("Fetch Error:", err);
+    }
   };
 
   useEffect(() => {
     fetchSales();
   }, []);
 
-const deleteSale = async(id)=>{
+  const deleteSale = async (id) => {
+    const confirmDelete = window.confirm(
+      "Delete this sale?\n\nThis action cannot be undone."
+    );
 
-const confirmDelete = window.confirm(
-"Delete this sale?\n\nThis action cannot be undone."
-)
+    if (!confirmDelete) return;
 
-if(!confirmDelete) return
+    try {
+      await fetch(
+        `https://garg-filing-station.onrender.com/api/sales/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-await fetch(`https://garg-filing-station.onrender.com/api/sales/${id}`,{
-method:"DELETE"
-})
-
-fetchSales()
-
-}
+      fetchSales();
+    } catch (err) {
+      console.log("Delete Error:", err);
+    }
+  };
 
   const startEdit = (sale) => {
     setEditId(sale._id);
     setEditPaid(sale.paidAmount);
+    setEditComment(sale.comment || "");
   };
 
   const saveEdit = async (sale) => {
-    const res = await fetch(`https://garg-filing-station.onrender.com/api/sales/${sale._id}`, {
-      method: "PUT",
+    try {
+      console.log("Sending:", {
+  paidAmount: Number(editPaid),
+  comment: editComment,
+});
+      const res = await fetch(
+        `https://garg-filing-station.onrender.com/api/sales/${sale._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            paidAmount: Number(editPaid),
+            comment: editComment,
+          }),
+        }
+      );
 
-      headers: {
-        "Content-Type": "application/json",
-      },
+      const data = await res.json();
 
-      body: JSON.stringify({
-        paidAmount: Number(editPaid),
-      }),
-    });
+      console.log("Update Response:", data);
 
-    const data = await res.json();
+      setEditId(null);
+      setEditPaid("");
+      setEditComment("");
 
-    console.log("update response:", data);
-
-    setEditId(null);
-
-    fetchSales();
+      fetchSales();
+    } catch (err) {
+      console.log("Update Error:", err);
+    }
   };
 
   /* SEARCH + FILTER */
 
   const filteredSales = sales.filter((sale) => {
     const matchSearch =
-      sale.name.toLowerCase().includes(search.toLowerCase()) ||
-      sale.mobile.includes(search) ||
-      sale.passbookNo.includes(search);
+      sale.name?.toLowerCase().includes(search.toLowerCase()) ||
+      sale.mobile?.includes(search) ||
+      sale.passbookNo?.includes(search);
 
     if (filter === "unpaid") {
       return matchSearch && sale.unpaidAmount > 0;
@@ -87,97 +113,133 @@ fetchSales()
         <input
           className="search"
           placeholder="Search by Name / Mobile / Passbook"
+          value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <select className="filter" onChange={(e) => setFilter(e.target.value)}>
+        <select
+          className="filter"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
           <option value="all">All Sales</option>
           <option value="unpaid">Unpaid Customers</option>
         </select>
       </div>
-<div className="tableWrapper">
-      <table className="salesTable">
-        <thead>
-          <tr>
-            <th>Sr.No</th>
-            <th>Name</th>
-            <th>Mobile</th>
-            <th>Passbook</th>
-            <th>OTP</th>
-            <th>Incoming</th>
-            <th>Outgoing</th>
-            <th>Price</th>
-            <th>Paid</th>
-            <th>Unpaid</th>
-            <th>Method</th>
-            <th>Date</th>
-            <th>Comment</th>
-            <th>Action</th>
-          </tr>
-        </thead>
 
-        <tbody>
-          {filteredSales.map((sale,i) => (
-            <tr key={sale._id}>
-              <td>{i+1}</td>
-
-              <td>{sale.name}</td>
-
-              <td>{sale.mobile}</td>
-
-              <td>{sale.passbookNo}</td>
-              <td>{sale.otp}</td>
-
-              <td>{sale.incomingCylinder}</td>
-
-              <td>{sale.outgoingCylinder}</td>
-
-              <td>₹{sale.price}</td>
-
-              <td>
-                {editId === sale._id ? (
-                  <input
-                    type="number"
-                    value={editPaid}
-                    onChange={(e) => setEditPaid(e.target.value)}
-                  />
-                ) : (
-                  `₹${sale.paidAmount}`
-                )}
-              </td>
-
-              <td className="unpaid">
-                ₹
-                {editId === sale._id
-                  ? sale.price - editPaid
-                  : sale.unpaidAmount}
-              </td>
-
-              <td>{sale.paymentType}</td>
-              <td>{new Date(sale.date).toLocaleDateString()}</td>
-              <td>{sale.comment}</td>
-
-              <td>
-                {editId === sale._id ? (
-                  <button className="save" onClick={() => saveEdit(sale)}>
-                    Save
-                  </button>
-                ) : (
-                  <button className="edit" onClick={() => startEdit(sale)}>
-                    Edit
-                  </button>
-                )}
-
-                <button className="delete" onClick={() => deleteSale(sale._id)}>
-                  Delete
-                </button>
-              </td>
+      <div className="tableWrapper">
+        <table className="salesTable">
+          <thead>
+            <tr>
+              <th>Sr.No</th>
+              <th>Name</th>
+              <th>Mobile</th>
+              <th>Passbook</th>
+              <th>OTP</th>
+              <th>Incoming</th>
+              <th>Outgoing</th>
+              <th>Price</th>
+              <th>Paid</th>
+              <th>Unpaid</th>
+              <th>Method</th>
+              <th>Date</th>
+              <th>Comment</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {filteredSales.map((sale, i) => (
+              <tr key={sale._id}>
+                <td>{i + 1}</td>
+
+                <td>{sale.name}</td>
+
+                <td>{sale.mobile}</td>
+
+                <td>{sale.passbookNo}</td>
+
+                <td>{sale.otp}</td>
+
+                <td>{sale.incomingCylinder}</td>
+
+                <td>{sale.outgoingCylinder}</td>
+
+                <td>₹{sale.price}</td>
+
+                <td>
+                  {editId === sale._id ? (
+                    <input
+                      type="number"
+                      value={editPaid}
+                      onChange={(e) => setEditPaid(e.target.value)}
+                      style={{ width: "90px" }}
+                    />
+                  ) : (
+                    `₹${sale.paidAmount}`
+                  )}
+                </td>
+
+                <td className="unpaid">
+                  ₹
+                  {editId === sale._id
+                    ? Number(sale.price) - Number(editPaid || 0)
+                    : sale.unpaidAmount}
+                </td>
+
+                <td>{sale.paymentType}</td>
+
+                <td>
+                  {sale.date
+                    ? new Date(sale.date).toLocaleDateString()
+                    : ""}
+                </td>
+
+                <td>
+                  {editId === sale._id ? (
+                    <input
+                      type="text"
+                      value={editComment}
+                      onChange={(e) => setEditComment(e.target.value)}
+                      placeholder="Enter comment"
+                      style={{ width: "150px" }}
+                    />
+                  ) : (
+                    sale.comment || "-"
+                  )}
+                </td>
+
+                <td>
+                  {editId === sale._id ? (
+                    <button
+                      className="save"
+                      onClick={() => saveEdit(sale)}
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      className="edit"
+                      onClick={() => startEdit(sale)}
+                    >
+                      Edit
+                    </button>
+                  )}
+
+                  <button
+                    className="delete"
+                    onClick={() => deleteSale(sale._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <ProfitReport/>
+
+      <ProfitReport />
     </div>
   );
 }

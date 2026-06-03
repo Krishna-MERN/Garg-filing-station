@@ -1,36 +1,34 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const saleSchema = new mongoose.Schema({
+  name: String,
 
-name:String,
+  mobile: String,
 
-mobile:String,
+  passbookNo: String,
 
-passbookNo:String,
+  otp: String,
 
-otp:String,
+  incomingCylinder: String,
 
-incomingCylinder:String,
+  outgoingCylinder: String,
 
-outgoingCylinder:String,
+  price: Number,
 
-price:Number,
+  cost: Number,
 
-cost:Number,
+  paidAmount: Number,
 
-paidAmount:Number,
+  unpaidAmount: Number,
 
-unpaidAmount:Number,
+  paymentType: String,
 
-paymentType:String,
+  comment: String,
 
-comment:String,
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-date:{
-type:Date,
-default:Date.now
-}
-
-})
-
-module.exports = mongoose.model("Sale",saleSchema)
+module.exports = mongoose.model("Sale", saleSchema);

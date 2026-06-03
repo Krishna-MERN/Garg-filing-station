@@ -1,287 +1,257 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-const Sale = require("../models/Sale")
-const Cylinder = require("../models/Cylinder")
-
+const Sale = require("../models/Sale");
+const Cylinder = require("../models/Cylinder");
 
 /* GET ALL SALES */
 
-router.get("/", async (req,res)=>{
+router.get("/", async (req, res) => {
+  try {
+    const sales = await Sale.find().sort({ date: -1 });
 
-try{
-
-const sales = await Sale.find().sort({date:-1})
-
-res.json(sales)
-
-}
-catch(err){
-
-res.status(500).json(err)
-
-}
-
-})
-
-
+    res.json(sales);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 /* CREATE SALE */
 
-router.post("/sell", async (req,res)=>{
+router.post("/sell", async (req, res) => {
+  try {
+    const data = req.body;
 
-try{
+    let stock = await Cylinder.findOne();
 
-const data = req.body
+    if (stock[data.outgoingCylinder].filled <= 0) {
+      return res.json({
+        success: false,
+        message: "Cylinder Out Of Stock",
+      });
+    }
 
-let stock = await Cylinder.findOne()
+    /* GET SELLING PRICE */
 
-if(stock[data.outgoingCylinder].filled <= 0){
+    const price = stock[data.outgoingCylinder].price;
 
-return res.json({
-success:false,
-message:"Cylinder Out Of Stock"
-})
+    /* GET COST PRICE */
 
-}
+    const cost = stock[data.outgoingCylinder].cost;
 
-/* GET SELLING PRICE */
+    /* CALCULATE UNPAID */
 
-const price = stock[data.outgoingCylinder].price
+    const paid = Number(data.paidAmount) || 0;
 
-/* GET COST PRICE */
+    const unpaidAmount = price - paid;
 
-const cost = stock[data.outgoingCylinder].cost
+    /* UPDATE STOCK */
 
-/* CALCULATE UNPAID */
+    stock[data.outgoingCylinder].filled -= 1;
+    stock[data.incomingCylinder].empty += 1;
 
-const paid = Number(data.paidAmount) || 0
+    await stock.save();
 
-const unpaidAmount = price - paid
+    /* SAVE SALE */
 
+    const sale = new Sale({
+      ...data,
 
-/* UPDATE STOCK */
+      price,
+      cost,
 
-stock[data.outgoingCylinder].filled -= 1
-stock[data.incomingCylinder].empty += 1
+      paidAmount: paid,
+      unpaidAmount,
+    });
 
-await stock.save()
+    await sale.save();
 
+    res.json({
+      success: true,
+      sale,
+    });
+  } catch (err) {
+    console.log(err);
 
-/* SAVE SALE */
-
-const sale = new Sale({
-
-...data,
-
-price,
-cost,
-
-paidAmount:paid,
-unpaidAmount
-
-})
-
-await sale.save()
-
-res.json({
-
-success:true,
-sale
-
-})
-
-}
-catch(err){
-
-console.log(err)
-
-res.status(500).json(err)
-
-}
-
-})
-
-
+    res.status(500).json(err);
+  }
+});
 
 /* UPDATE PAYMENT */
 
-router.put("/:id", async (req,res)=>{
+// router.put("/:id", async (req, res) => {
+//   try {
+//     const sale = await Sale.findById(req.params.id);
 
-try{
+//     if (!sale) {
+//       return res.status(404).json({ message: "Sale not found" });
+//     }
 
-const sale = await Sale.findById(req.params.id)
+//     const newPaid = Number(req.body.paidAmount);
 
-if(!sale){
-return res.status(404).json({message:"Sale not found"})
-}
+//     /* get price safely */
 
-const newPaid = Number(req.body.paidAmount)
+//     let price = sale.price;
 
-/* get price safely */
+//     if (!price) {
+//       const stock = await Cylinder.findOne();
 
-let price = sale.price
+//       price = stock[sale.outgoingCylinder].price;
 
-if(!price){
+//       sale.price = price;
+//     }
 
-const stock = await Cylinder.findOne()
+//     sale.paidAmount = newPaid;
+//     sale.unpaidAmount = price - newPaid;
 
-price = stock[sale.outgoingCylinder].price
+//     await sale.save();
 
-sale.price = price
+//     res.json({
+//       success: true,
+//       sale,
+//     });
+//   } catch (err) {
+//     console.log(err);
 
-}
+//     res.status(500).json(err);
+//   }
+// });
 
-sale.paidAmount = newPaid
-sale.unpaidAmount = price - newPaid
+// router.put("/:id", async (req, res) => {
+//   try {
+//     const sale = await Sale.findById(req.params.id);
 
-await sale.save()
+//     if (!sale) {
+//       return res.status(404).json({
+//         message: "Sale not found",
+//       });
+//     }
 
-res.json({
-success:true,
-sale
-})
+//     const newPaid = Number(req.body.paidAmount);
 
-}
-catch(err){
+//     if (isNaN(newPaid)) {
+//       return res.status(400).json({
+//         message: "Invalid paid amount",
+//       });
+//     }
 
-console.log(err)
+//     /* ensure price exists */
 
-res.status(500).json(err)
+//     const price = Number(sale.price || 0);
 
-}
+//     /* update values */
 
-}) 
+//     sale.paidAmount = newPaid;
+//     sale.unpaidAmount = price - newPaid;
 
+//     await sale.save();
 
+//     res.json({
+//       success: true,
+//       sale,
+//     });
+//   } catch (err) {
+//     console.log("UPDATE ERROR:", err);
 
-router.put("/:id", async (req,res)=>{
-
-try{
-
-const sale = await Sale.findById(req.params.id)
-
-if(!sale){
-
-return res.status(404).json({
-message:"Sale not found"
-})
-
-}
-
-const newPaid = Number(req.body.paidAmount)
-
-if(isNaN(newPaid)){
-
-return res.status(400).json({
-message:"Invalid paid amount"
-})
-
-}
-
-/* ensure price exists */
-
-const price = Number(sale.price || 0)
-
-/* update values */
-
-sale.paidAmount = newPaid
-sale.unpaidAmount = price - newPaid
-
-await sale.save()
-
-res.json({
-success:true,
-sale
-})
-
-}
-catch(err){
-
-console.log("UPDATE ERROR:",err)
-
-res.status(500).json({
-message:"Server Error",
-error:err.message
-})
-
-}
-
-})
+//     res.status(500).json({
+//       message: "Server Error",
+//       error: err.message,
+//     });
+//   }
+// });
 
 
+/* UPDATE PAYMENT + COMMENT */
+
+router.put("/:id", async (req, res) => {
+  try {
+    const updatedSale = await Sale.findByIdAndUpdate(
+      req.params.id,
+      {
+        paidAmount: Number(req.body.paidAmount),
+        comment: req.body.comment,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!updatedSale) {
+      return res.status(404).json({
+        message: "Sale not found",
+      });
+    }
+
+    updatedSale.unpaidAmount =
+      Number(updatedSale.price || 0) - Number(updatedSale.paidAmount || 0);
+
+    await updatedSale.save();
+
+    res.json({
+      success: true,
+      sale: updatedSale,
+    });
+  } catch (err) {
+    console.log("UPDATE ERROR:", err);
+
+    res.status(500).json({
+      message: "Server Error",
+      error: err.message,
+    });
+  }
+});
 /* DELETE SALE */
 
-router.delete("/:id", async (req,res)=>{
+router.delete("/:id", async (req, res) => {
+  try {
+    await Sale.findByIdAndDelete(req.params.id);
 
-try{
+    res.json({
+      message: "Sale Deleted",
+    });
+  } catch (err) {
+    console.log(err);
 
-await Sale.findByIdAndDelete(req.params.id)
-
-res.json({
-message:"Sale Deleted"
-})
-
-}
-catch(err){
-
-console.log(err)
-
-res.status(500).json(err)
-
-}
-
-})
+    res.status(500).json(err);
+  }
+});
 
 // sale profit report
-router.get("/report", async (req,res)=>{
+router.get("/report", async (req, res) => {
+  try {
+    const { from, to } = req.query;
 
-try{
+    let filter = {};
 
-const {from,to} = req.query
+    if (from && to) {
+      filter.date = {
+        $gte: new Date(from),
+        $lte: new Date(to),
+      };
+    }
 
-let filter = {}
+    const sales = await Sale.find(filter);
 
-if(from && to){
+    let totalCost = 0;
+    let totalPaid = 0;
+    let totalUnpaid = 0;
 
-filter.date = {
-$gte:new Date(from),
-$lte:new Date(to)
-}
+    sales.forEach((sale) => {
+      totalCost += sale.cost || 0;
+      totalPaid += sale.paidAmount || 0;
+      totalUnpaid += sale.unpaidAmount || 0;
+    });
 
-}
+    res.json({
+      sales,
+      totalCost,
+      totalPaid,
+      totalUnpaid,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-const sales = await Sale.find(filter)
-
-let totalCost = 0
-let totalPaid = 0
-let totalUnpaid = 0
-
-sales.forEach(sale=>{
-
-totalCost += sale.cost || 0
-totalPaid += sale.paidAmount || 0
-totalUnpaid += sale.unpaidAmount || 0
-
-})
-
-res.json({
-
-sales,
-totalCost,
-totalPaid,
-totalUnpaid
-
-})
-
-}
-catch(err){
-
-res.status(500).json(err)
-
-}
-
-})
-
-
-module.exports = router
+module.exports = router;
