@@ -1,4 +1,5 @@
 const express = require("express");
+throw new Error("SALE ROUTE LOADED");
 const router = express.Router();
 
 const Sale = require("../models/Sale");
@@ -19,10 +20,11 @@ router.get("/", async (req, res) => {
 /* CREATE SALE */
 
 router.post("/sell", async (req, res) => {
+
+ 
  
   try {
-    console.log("BODY =", req.body);
-     console.log(req.body);
+    
     const data = req.body;
    
     let stock = await Cylinder.findOne();
@@ -57,21 +59,41 @@ router.post("/sell", async (req, res) => {
 
     /* SAVE SALE */
 
+
+    // const sale = new Sale({
+    //   ...data,
+
+    //   price,
+    //   cost,
+    //   paidAmount: paid,
+    //   unpaidAmount,
+    // });
+
     const sale = new Sale({
-      ...data,
+  name: data.name,
+  mobile: data.mobile,
+  passbookNo: data.passbookNo,
 
-      price,
-      cost,
-      paidAmount: paid,
-      unpaidAmount,
-    });
+  branch: data.branch,
+  otp: data.otp,
+  otpStatus: data.otpStatus,
 
-    await sale.save();
+  incomingCylinder: data.incomingCylinder,
+  outgoingCylinder: data.outgoingCylinder,
 
-    res.json({
-      success: true,
-      sale,
-    });
+  deliveryStatus: data.deliveryStatus,
+
+  paymentType: data.paymentType,
+  comment: data.comment,
+
+  price,
+  cost,
+  paidAmount: paid,
+  unpaidAmount,
+});
+
+
+
   } catch (err) {
     console.log(err);
 
@@ -79,88 +101,6 @@ router.post("/sell", async (req, res) => {
   }
 });
 
-/* UPDATE PAYMENT */
-
-// router.put("/:id", async (req, res) => {
-//   try {
-//     const sale = await Sale.findById(req.params.id);
-
-//     if (!sale) {
-//       return res.status(404).json({ message: "Sale not found" });
-//     }
-
-//     const newPaid = Number(req.body.paidAmount);
-
-//     /* get price safely */
-
-//     let price = sale.price;
-
-//     if (!price) {
-//       const stock = await Cylinder.findOne();
-
-//       price = stock[sale.outgoingCylinder].price;
-
-//       sale.price = price;
-//     }
-
-//     sale.paidAmount = newPaid;
-//     sale.unpaidAmount = price - newPaid;
-
-//     await sale.save();
-
-//     res.json({
-//       success: true,
-//       sale,
-//     });
-//   } catch (err) {
-//     console.log(err);
-
-//     res.status(500).json(err);
-//   }
-// });
-
-// router.put("/:id", async (req, res) => {
-//   try {
-//     const sale = await Sale.findById(req.params.id);
-
-//     if (!sale) {
-//       return res.status(404).json({
-//         message: "Sale not found",
-//       });
-//     }
-
-//     const newPaid = Number(req.body.paidAmount);
-
-//     if (isNaN(newPaid)) {
-//       return res.status(400).json({
-//         message: "Invalid paid amount",
-//       });
-//     }
-
-//     /* ensure price exists */
-
-//     const price = Number(sale.price || 0);
-
-//     /* update values */
-
-//     sale.paidAmount = newPaid;
-//     sale.unpaidAmount = price - newPaid;
-
-//     await sale.save();
-
-//     res.json({
-//       success: true,
-//       sale,
-//     });
-//   } catch (err) {
-//     console.log("UPDATE ERROR:", err);
-
-//     res.status(500).json({
-//       message: "Server Error",
-//       error: err.message,
-//     });
-//   }
-// });
 
 
 /* UPDATE PAYMENT + COMMENT */

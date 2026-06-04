@@ -29,9 +29,20 @@ const [form, setForm] = useState({
       .then((data) => setStock(data));
   }, []);
 
+  // const handleChange = (e) => {
+  //   setForm({ ...form, [e.target.name]: e.target.value });
+  // };
+
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const { name, value } = e.target;
+
+  setForm((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
+
 
   /* AUTO CALCULATE UNPAID */
 
@@ -60,6 +71,9 @@ Unpaid Amount: ₹${unpaid}`
   );
 
   if (!confirmSale) return;
+ //alert(JSON.stringify(form, null, 2)); // to check frontend working or not
+
+
 
   const res = await fetch("https://garg-filing-station.onrender.com/api/sales/sell", {
     method: "POST",
@@ -72,9 +86,15 @@ Unpaid Amount: ₹${unpaid}`
       ...form,
       paidAmount: Number(form.paidAmount),
     }),
+
+
+
   });
 
+
   const data = await res.json();
+
+  console.log("FULL RESPONSE", data); // test
 
   if (!data.success) {
     alert(data.message);
@@ -193,9 +213,13 @@ Unpaid Amount: ₹${unpaid}`
 
             <p>Mobile: {bill.mobile}</p>
 
-            <p>Incoming Cylinder: {bill.incomingCylinder}</p>
+            <p>Branch: {bill.branch}</p>
 
+            <p>Incoming Cylinder: {bill.incomingCylinder}</p>
+            
             <p>Outgoing Cylinder: {bill.outgoingCylinder}</p>
+
+            <p>Delivery Status: {bill.deliveryStatus}</p>
 
             <p>Price: ₹{bill.price}</p>
 
