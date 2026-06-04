@@ -19,15 +19,21 @@ router.get("/", async (req, res) => {
 
 /* CREATE SALE */
 
-router.post("/sell", async (req, res) => {
 
- 
- 
+/* CREATE SALE */
+
+router.post("/sell", async (req, res) => {
   try {
-    
     const data = req.body;
-   
+
     let stock = await Cylinder.findOne();
+
+    if (!stock[data.outgoingCylinder]) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Cylinder Type",
+      });
+    }
 
     if (stock[data.outgoingCylinder].filled <= 0) {
       return res.json({
@@ -36,45 +42,44 @@ router.post("/sell", async (req, res) => {
       });
     }
 
-    /* GET SELLING PRICE */
-
     const price = stock[data.outgoingCylinder].price;
-
-    /* GET COST PRICE */
-
     const cost = stock[data.outgoingCylinder].cost;
 
-    /* CALCULATE UNPAID */
-
     const paid = Number(data.paidAmount) || 0;
-
     const unpaidAmount = price - paid;
 
     /* UPDATE STOCK */
 
     stock[data.outgoingCylinder].filled -= 1;
-    stock[data.incomingCylinder].empty += 1;
 
-
-    console.log("DATA RECEIVED:", data);
-
-    res.json({
-  success: true,
-  sale,
-  receivedData: data
-});
+    if (
+      data.incomingCylinder &&
+      data.incomingCylinder !== "None" &&
+      stock[data.incomingCylinder]
+    ) {
+      stock[data.incomingCylinder].empty += 1;
+    }
 
     await stock.save();
-    res.json({
-  success: true,
-  sale,
-});
 
     /* SAVE SALE */
 
-
     const sale = new Sale({
-      ...data,
+      name: data.name,
+      mobile: data.mobile,
+      passbookNo: data.passbookNo,
+
+      branch: data.branch,
+      otp: data.otp,
+      otpStatus: data.otpStatus,
+
+      incomingCylinder: data.incomingCylinder,
+      outgoingCylinder: data.outgoingCylinder,
+
+      deliveryStatus: data.deliveryStatus,
+
+      paymentType: data.paymentType,
+      comment: data.comment,
 
       price,
       cost,
@@ -82,16 +87,24 @@ router.post("/sell", async (req, res) => {
       unpaidAmount,
     });
 
+    await sale.save();
 
+    console.log("SALE SAVED:", sale);
 
-
-
+    res.json({
+      success: true,
+      sale,
+    });
   } catch (err) {
-    console.log(err);
+    console.log("SALE ERROR:", err);
 
-    res.status(500).json(err);
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 });
+
 
 
 
