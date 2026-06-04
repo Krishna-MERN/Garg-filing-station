@@ -60,37 +60,16 @@ router.post("/sell", async (req, res) => {
     /* SAVE SALE */
 
 
-    // const sale = new Sale({
-    //   ...data,
-
-    //   price,
-    //   cost,
-    //   paidAmount: paid,
-    //   unpaidAmount,
-    // });
-
     const sale = new Sale({
-  name: data.name,
-  mobile: data.mobile,
-  passbookNo: data.passbookNo,
+      ...data,
 
-  branch: data.branch,
-  otp: data.otp,
-  otpStatus: data.otpStatus,
+      price,
+      cost,
+      paidAmount: paid,
+      unpaidAmount,
+    });
 
-  incomingCylinder: data.incomingCylinder,
-  outgoingCylinder: data.outgoingCylinder,
 
-  deliveryStatus: data.deliveryStatus,
-
-  paymentType: data.paymentType,
-  comment: data.comment,
-
-  price,
-  cost,
-  paidAmount: paid,
-  unpaidAmount,
-});
 
 
 
