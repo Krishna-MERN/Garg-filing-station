@@ -55,7 +55,20 @@ router.post("/sell", async (req, res) => {
     stock[data.outgoingCylinder].filled -= 1;
     stock[data.incomingCylinder].empty += 1;
 
+
+    console.log("DATA RECEIVED:", data);
+
+    res.json({
+  success: true,
+  sale,
+  receivedData: data
+});
+
     await stock.save();
+    res.json({
+  success: true,
+  sale,
+});
 
     /* SAVE SALE */
 
