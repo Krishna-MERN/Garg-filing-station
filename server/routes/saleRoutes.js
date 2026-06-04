@@ -1,5 +1,5 @@
 const express = require("express");
-throw new Error("SALE ROUTE LOADED");
+// use to crash the server
 const router = express.Router();
 
 const Sale = require("../models/Sale");

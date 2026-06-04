@@ -1,4 +1,5 @@
 const express = require("express")
+console.log("INDEX FILE VERSION 999");
 const mongoose = require("mongoose")
 const cors = require("cors")
 
