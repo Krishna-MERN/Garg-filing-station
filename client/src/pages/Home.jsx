@@ -53,8 +53,8 @@ function Home() {
             className="home-card"
             onClick={() => navigate("/profit")}
           >
-            <h2>📊 Profit Report</h2>
-            <p>View daily and monthly profit</p>
+            <h2>📊 View Report</h2>
+            <p>View daily and monthly sale report</p>
           </button>
 
         </div>
