@@ -159,7 +159,7 @@ Unpaid Amount: ₹${unpaid}`
             onChange={handleChange}
           >
             <option value="Baldirai">Baldirai</option>
-            <option value="Delhi">Delhi</option>
+            <option value="Dehli">Dehli</option>
           </select>
 
           <input
