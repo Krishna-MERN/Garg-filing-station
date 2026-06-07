@@ -141,8 +141,8 @@ const startEdit = (sale) => {
               <th>Branch</th>
               <th>OTP</th>
               <th>OTP Status</th>
-              <th>Incoming</th>
-              <th>Outgoing</th>
+              <th>In</th>
+              <th>Out</th>
               <th>Delivery Status</th>
               <th>Price</th>
               <th>Paid</th>

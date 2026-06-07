@@ -51,7 +51,7 @@
 }
 
 .salesTable th{
-    padding:14px 10px;
+    padding:14px 12px;
     text-align:left;
     white-space:nowrap;
 }
@@ -130,15 +130,32 @@
 
 /* Tablet */
 
-@media(max-width:768px){
+@media(max-width:790px){
 
     .salesPage{
-        padding:15px;
+        padding:10px;
     }
 
     .salesPage h1{
-        font-size:24px;
+        font-size:20px;
     }
+    
+
+.salesTable th{
+    padding:4px 3px;
+    text-align:left;
+    white-space:nowrap;
+}
+
+.salesTable td{
+    padding:3px 2px;
+    border-bottom:1px solid #e5e7eb;
+    white-space:nowrap;
+}
+
+
+
+
 
     .search,
     .filter{
@@ -153,11 +170,25 @@
 
 /* Small Mobile */
 
-@media(max-width:480px){
+@media(max-width:440px){
 
     .salesPage h1{
         font-size:20px;
     }
+
+.salesTable th{
+    padding:4px 3px;
+    text-align:left;
+    white-space:nowrap;
+}
+
+.salesTable td{
+    padding:3px 2px;
+    border-bottom:1px solid #e5e7eb;
+    white-space:nowrap;
+}
+
+
 
     .edit,
     .save,
