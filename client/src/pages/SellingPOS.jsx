@@ -160,7 +160,7 @@ Unpaid Amount: ₹${unpaid}`
           >
             <option value="Baldirai">Baldirai</option>
             <option value="Dehli">Dehli</option>
-            <option value="Dehli">Kumarganj</option>
+            <option value="Kumarganj">Kumarganj</option>
           </select>
 
           <input
